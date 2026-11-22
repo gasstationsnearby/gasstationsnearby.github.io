@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Gas Station Nearby — Find the Closest Gas Stations Near You</title>
+<meta name="description" content="Find the closest gas stations near you right now. GasStationNearby uses your location or any city or ZIP code to list real gas stations from OpenStreetMap, sorted by distance, with directions, addresses and opening hours." />
+<meta name="keywords" content="gas station near me, gas station nearby, closest gas station, find gas stations, petrol station near me, fuel stations near me" />
+<link rel="canonical" href="https://gasstationsnearby.github.io/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Gas Station Nearby" />
+<meta property="og:title" content="Gas Station Nearby — Find the Closest Gas Stations Near You" />
+<meta property="og:description" content="Find the closest gas stations near you. Real station locations from OpenStreetMap, sorted by distance, with directions, addresses and opening hours." />
+<meta property="og:url" content="https://gasstationsnearby.github.io/" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Gas Station Nearby — Find the Closest Gas Stations Near You" />
+<meta name="twitter:description" content="Find the closest gas stations near you. Real station locations from OpenStreetMap, sorted by distance, with directions and opening hours." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Gas Station Nearby",
+  "alternateName": "GasStationNearby",
+  "url": "https://gasstationsnearby.github.io/",
+  "description": "Find the closest gas stations near you using free OpenStreetMap data, sorted by distance with directions, addresses and opening hours."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Gas Station Nearby",
+  "url": "https://gasstationsnearby.github.io/",
+  "applicationCategory": "TravelApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "A free gas station finder that lists real stations near your location from OpenStreetMap, sorted by distance."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How does GasStationNearby find gas stations near me?", "acceptedAnswer": { "@type": "Answer", "text": "When you tap the Find Gas Stations Near Me button, your browser shares your approximate location with the page. The tool then asks the OpenStreetMap Overpass API for every fuel station recorded around that point, calculates the straight-line distance to each one, and lists them closest first. Your location is used only in your browser and is never stored or sent to this website." } },
+    { "@type": "Question", "name": "Does GasStationNearby show live gas prices?", "acceptedAnswer": { "@type": "Answer", "text": "No. There is no free, public, worldwide feed of live fuel prices, so we do not show prices at all rather than guess or invent them. We show station locations, distances, addresses and opening hours from OpenStreetMap. For prices, check the station's own signage or a dedicated price-reporting service in your country." } },
+    { "@type": "Question", "name": "Is GasStationNearby free to use?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The tool is completely free, needs no account and no sign-up. It is built on free public data from OpenStreetMap contributors." } },
+    { "@type": "Question", "name": "Why is a station missing or listed with incomplete details?", "acceptedAnswer": { "@type": "Answer", "text": "Station data comes from OpenStreetMap, a map built by volunteers. Most stations are recorded, but a new station may not be added yet, and some entries lack an address or opening hours. Anyone can improve the map by editing OpenStreetMap directly." } },
+    { "@type": "Question", "name": "Can I search for gas stations in another city or ZIP code?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Type any city, town or ZIP/postcode into the search box instead of using your location. The place is looked up with the free Nominatim geocoder and the same station search runs around that point." } },
+    { "@type": "Question", "name": "Is my location data stored or shared?", "acceptedAnswer": { "@type": "Answer", "text": "No. Your coordinates are used in your browser only, to query OpenStreetMap services for nearby stations. This website has no server and no database, so nothing about your location is stored, logged or sold." } },
+    { "@type": "Question", "name": "How accurate are the distances shown?", "acceptedAnswer": { "@type": "Answer", "text": "Distances are straight-line distances calculated with the haversine formula between your location and each station. The actual driving distance will usually be a little longer because roads are not straight. Use the Get Directions button for the real road route." } },
+    { "@type": "Question", "name": "What do I do if no stations are found?", "acceptedAnswer": { "@type": "Answer", "text": "Try a larger search radius, such as 10 or 25 miles, especially in rural areas where stations are spread out. If you searched by name, check the spelling or try the nearest town instead." } },
+    { "@type": "Question", "name": "Does the tool work outside the United States?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. OpenStreetMap covers most of the world, so the finder works wherever contributors have mapped fuel stations. Distances are shown in miles; coverage and detail vary by country." } },
+    { "@type": "Question", "name": "How do I get directions to a station?", "acceptedAnswer": { "@type": "Answer", "text": "Every result has a Get Directions button. It opens Google Maps with a route from your current position to that station, where you can start turn-by-turn navigation." } }
+  ]
+}
+</script>
+<style>
+  :root{
+    --bg:#f3f5f3;
+    --surface:#ffffff;
+    --surface-2:#e9ede9;
+    --ink:#15211c;
+    --ink-soft:#48564f;
+    --line:#d5dcd6;
+    --teal:#0d6e5f;
+    --teal-dark:#095144;
+    --teal-tint:#e2f1ec;
+    --amber:#d98a06;
+    --amber-tint:#fdf1da;
+    --red:#b3372c;
+    --red-tint:#fbe9e6;
+    --shadow:0 10px 30px rgba(18,38,30,.10);
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0e1411;
+      --surface:#16201a;
+      --surface-2:#1e2b23;
+      --ink:#e8efe9;
+      --ink-soft:#a7b8ad;
+      --line:#2b3a31;
+      --teal:#2fbfa4;
+      --teal-dark:#7fe0cb;
+      --teal-tint:#14332b;
+      --amber:#f0b23e;
+      --amber-tint:#3a2d10;
+      --red:#f08a7d;
+      --red-tint:#3c1f1a;
+      --shadow:0 10px 30px rgba(0,0,0,.45);
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Barlow",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:17px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--teal)}
+  button,[role="button"],select,summary,input:not([type="checkbox"],[type="radio"]){min-height:2.25rem}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+
+  /* ---------- Header / nav ---------- */
+  header.site{
+    position:sticky;top:0;z-index:50;
+    background:var(--surface);border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;gap:14px;padding:10px 0;flex-wrap:wrap}
+  .brand{
+    font-family:"Barlow Condensed","Barlow",sans-serif;font-weight:700;
+    font-size:1.45rem;letter-spacing:.02em;color:var(--ink);text-decoration:none;
+    display:flex;align-items:center;gap:9px;margin-right:auto;min-height:2.25rem;
+  }
+  .brand .pump{flex:none;display:block}
+  .brand em{font-style:normal;color:var(--teal)}
+  nav.links{display:flex;gap:2px;flex-wrap:wrap}
+  nav.links a{
+    color:var(--ink-soft);text-decoration:none;font-weight:600;font-size:.98rem;
+    padding:8px 11px;border-radius:9px;display:inline-flex;align-items:center;min-height:2.25rem;
+  }
+  nav.links a:hover{background:var(--surface-2);color:var(--ink)}
+  nav.links a.active{background:var(--teal-tint);color:var(--teal-dark)}
+
+  /* ---------- Hero / tool ---------- */
+  .hero{padding:38px 0 8px}
+  .hero h1{
+    font-family:"Barlow Condensed","Barlow",sans-serif;font-weight:700;
+    font-size:clamp(2.1rem,5.4vw,3.3rem);line-height:1.04;margin:0 0 12px;letter-spacing:.01em;
+  }
+  .hero h1 .hl{color:var(--teal)}
+  .hero p.lede{margin:0 0 22px;color:var(--ink-soft);font-size:1.13rem;max-width:640px}
+  .tool{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:20px;
+  }
+  .btn-locate{
+    width:100%;border:0;cursor:pointer;border-radius:12px;
+    background:var(--teal);color:#fff;
+    font-family:inherit;font-weight:700;font-size:1.18rem;
+    padding:15px 18px;display:flex;align-items:center;justify-content:center;gap:10px;
+    min-height:3.4rem;
+  }
+  .btn-locate:hover{background:var(--teal-dark)}
+  @media (prefers-color-scheme: dark){ .btn-locate{color:#07231c} .btn-locate:hover{background:#25a98d;color:#eafffa} }
+  .btn-locate:disabled{opacity:.6;cursor:wait}
+  .or{display:flex;align-items:center;gap:12px;margin:16px 0;color:var(--ink-soft);font-size:.92rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+  .or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+  .search-row{display:flex;gap:10px;flex-wrap:wrap}
+  .search-row input[type="text"]{
+    flex:1 1 220px;font-family:inherit;font-size:1.05rem;color:var(--ink);
+    background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:11px 14px;min-height:3rem;
+  }
+  .search-row input[type="text"]:focus{outline:2px solid var(--teal);outline-offset:1px;border-color:transparent}
+  .btn-search{
+    border:1px solid var(--teal);background:transparent;color:var(--teal-dark);
+    font-family:inherit;font-weight:700;font-size:1.02rem;border-radius:11px;
+    padding:11px 20px;cursor:pointer;min-height:3rem;
+  }
+  .btn-search:hover{background:var(--teal-tint)}
+  .btn-search:disabled{opacity:.6;cursor:wait}
+  .controls{display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .controls label{font-weight:600;color:var(--ink-soft);font-size:.98rem}
+  .controls select{
+    font-family:inherit;font-size:1rem;color:var(--ink);background:var(--bg);
+    border:1px solid var(--line);border-radius:9px;padding:8px 10px;min-height:2.6rem;
+  }
+  .note{
+    margin-top:16px;background:var(--amber-tint);border-radius:11px;padding:12px 14px;
+    font-size:.97rem;color:var(--ink);
+  }
+  .note strong{color:var(--amber)}
+  @media (prefers-color-scheme: dark){ .note strong{color:var(--amber)} }
+
+  /* ---------- Status & results ---------- */
+  .status{margin:22px 0 0;display:none}
+  .status.show{display:block}
+  .status .box{
+    border-radius:var(--radius);padding:16px 18px;font-size:1.02rem;
+    background:var(--surface);border:1px solid var(--line);
+  }
+  .status.error .box{background:var(--red-tint);border-color:transparent}
+  .status.error .box strong{color:var(--red)}
+  .status .box p{margin:0 0 6px}
+  .status .box p:last-child{margin-bottom:0}
+  .btn-retry{
+    margin-top:10px;border:0;background:var(--teal);color:#fff;font-family:inherit;
+    font-weight:700;font-size:1rem;border-radius:10px;padding:10px 18px;cursor:pointer;min-height:2.75rem;
+  }
+  @media (prefers-color-scheme: dark){ .btn-retry{color:#07231c} }
+  .spinner{
+    display:inline-block;width:18px;height:18px;border-radius:50%;
+    border:3px solid var(--line);border-top-color:var(--teal);
+    animation:spin .8s linear infinite;vertical-align:-3px;margin-right:9px;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion: reduce){ .spinner{animation-duration:2.4s} html{scroll-behavior:auto} }
+
+  .results-head{display:none;align-items:baseline;gap:12px;margin:26px 0 12px;flex-wrap:wrap}
+  .results-head.show{display:flex}
+  .results-head h2{font-family:"Barlow Condensed","Barlow",sans-serif;font-size:1.7rem;margin:0;font-weight:700}
+  .results-head .count{color:var(--ink-soft);font-weight:600}
+  .results-head .near{color:var(--ink-soft);font-size:.98rem;width:100%}
+  .cards{display:grid;gap:12px}
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px 18px;display:flex;gap:16px;align-items:flex-start;
+  }
+  .card .main{flex:1;min-width:0}
+  .card h3{margin:0 0 3px;font-size:1.18rem;font-weight:700;line-height:1.25}
+  .card .brand-tag{
+    display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    background:var(--teal-tint);color:var(--teal-dark);border-radius:6px;padding:2px 8px;margin-bottom:6px;
+  }
+  .card .addr{color:var(--ink-soft);margin:0 0 4px}
+  .card .meta{color:var(--ink-soft);margin:0;font-size:.97rem}
+  .card .meta b{color:var(--ink);font-weight:600}
+  .card .side{text-align:right;flex:none}
+  .card .dist{font-family:"Barlow Condensed","Barlow",sans-serif;font-size:1.65rem;font-weight:700;color:var(--teal);line-height:1}
+  .card .dist small{display:block;font-family:"Barlow",sans-serif;font-size:.8rem;font-weight:600;color:var(--ink-soft);letter-spacing:.04em;margin-top:3px}
+  .btn-dir{
+    display:inline-flex;align-items:center;gap:7px;margin-top:10px;
+    background:var(--teal);color:#fff;text-decoration:none;font-weight:700;font-size:.98rem;
+    border-radius:10px;padding:10px 15px;min-height:2.75rem;
+  }
+  @media (prefers-color-scheme: dark){ .btn-dir{color:#07231c} }
+  .btn-dir:hover{background:var(--teal-dark)}
+  @media (prefers-color-scheme: dark){ .btn-dir:hover{background:#25a98d;color:#eafffa} }
+  @media (max-width:520px){
+    .card{flex-direction:column;gap:8px}
+    .card .side{text-align:left;display:flex;align-items:center;gap:16px}
+    .card .dist small{display:inline;margin-left:5px}
+    .btn-dir{margin-top:0}
+  }
+  .mapbox{display:none;margin-top:18px}
+  .mapbox.show{display:block}
+  .mapbox iframe{
+    width:100%;height:340px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface-2);
+  }
+  .mapbox .cap{font-size:.9rem;color:var(--ink-soft);margin-top:6px}
+  .attrib{margin-top:14px;font-size:.9rem;color:var(--ink-soft)}
+
+  /* ---------- Content sections ---------- */
+  section.page{display:none;padding:34px 0 10px}
+  section.page.show{display:block}
+  section.page h1{
+    font-family:"Barlow Condensed","Barlow",sans-serif;font-weight:700;
+    font-size:clamp(1.9rem,4.6vw,2.7rem);line-height:1.08;margin:0 0 14px;
+  }
+  .prose{max-width:760px}
+  .prose h2{font-size:1.42rem;margin:30px 0 8px;font-weight:700}
+  .prose h3{font-size:1.16rem;margin:22px 0 6px;font-weight:700}
+  .prose p{margin:0 0 13px;color:var(--ink)}
+  .prose p.soft,.prose li{color:var(--ink-soft)}
+  .prose ul,.prose ol{margin:0 0 14px;padding-left:22px}
+  .prose li{margin-bottom:7px;color:var(--ink)}
+  .prose li span{color:var(--ink-soft)}
+  .steps{display:grid;gap:12px;margin:18px 0 6px}
+  @media (min-width:760px){ .steps{grid-template-columns:repeat(3,1fr)} }
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+  .step .n{
+    font-family:"Barlow Condensed","Barlow",sans-serif;font-weight:700;font-size:1.9rem;color:var(--amber);line-height:1;
+  }
+  .step h3{margin:8px 0 5px;font-size:1.1rem}
+  .step p{margin:0;color:var(--ink-soft);font-size:.99rem}
+  .home-extra{padding:30px 0 4px}
+  .home-extra h2{font-family:"Barlow Condensed","Barlow",sans-serif;font-size:1.9rem;margin:0 0 10px;font-weight:700}
+  .home-extra p{color:var(--ink-soft);max-width:760px;margin:0 0 12px}
+  .faq-item{border-bottom:1px solid var(--line)}
+  .faq-item summary{
+    cursor:pointer;font-weight:700;font-size:1.08rem;padding:15px 4px;list-style:none;
+    display:flex;justify-content:space-between;gap:12px;align-items:center;
+  }
+  .faq-item summary::-webkit-details-marker{display:none}
+  .faq-item summary::after{content:"+";font-size:1.5rem;color:var(--teal);font-weight:600;line-height:1}
+  .faq-item[open ] summary::after{content:"–"}
+  .faq-item .a{padding:0 4px 16px;color:var(--ink-soft);max-width:760px}
+  .faq-item .a p{margin:0}
+  .tip-grid{display:grid;gap:12px;margin:16px 0}
+  @media (min-width:760px){ .tip-grid{grid-template-columns:1fr 1fr} }
+  .tip{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+  .tip h3{margin:0 0 6px;font-size:1.08rem}
+  .tip p{margin:0;color:var(--ink-soft);font-size:.99rem}
+  .contact-box{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;max-width:640px;
+  }
+  .contact-box a.mail{font-weight:700;font-size:1.15rem}
+
+  footer.site{
+    margin-top:44px;border-top:1px solid var(--line);background:var(--surface);
+    padding:26px 0 34px;color:var(--ink-soft);font-size:.97rem;
+  }
+  footer.site .cols{display:flex;gap:28px;flex-wrap:wrap;justify-content:space-between}
+  footer.site nav{display:flex;gap:6px 16px;flex-wrap:wrap;max-width:560px}
+  footer.site nav a{color:var(--ink-soft);text-decoration:none;font-weight:600;padding:6px 2px;display:inline-flex;align-items:center;min-height:2rem}
+  footer.site nav a:hover{color:var(--teal)}
+  footer.site .fine{margin-top:16px;font-size:.9rem}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="#/" data-nav="home" aria-label="Gas Station Nearby — home">
+      <svg class="pump" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 21V5.5A1.5 1.5 0 0 1 6.5 4h5A1.5 1.5 0 0 1 13 5.5V21" stroke="#0d6e5f" stroke-width="2" stroke-linecap="round"/><path d="M3 21h12" stroke="#0d6e5f" stroke-width="2" stroke-linecap="round"/><rect x="7" y="7" width="4" height="4" rx="1" fill="#d98a06"/><path d="M13 9.5 16.6 6a1.6 1.6 0 0 1 2.4 1.4V16a1.8 1.8 0 0 0 3.6 0v-4.6a2 2 0 0 0-.6-1.4L19.5 7.6" stroke="#0d6e5f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Gas<em>Station</em>Nearby
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="#/" data-nav="home">Finder</a>
+      <a href="#/how-it-works" data-nav="how">How It Works</a>
+      <a href="#/cheapest-gas-guide" data-nav="guide">Cheapest Gas Guide</a>
+      <a href="#/faq" data-nav="faq">FAQ</a>
+      <a href="#/about" data-nav="about">About</a>
+      <a href="#/contact" data-nav="contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ HOME / FINDER ============ -->
+  <div id="view-home">
+    <div class="hero">
+      <h1>Find the closest <span class="hl">gas stations</span> near you</h1>
+      <p class="lede">One tap shows the real fuel stations around you — nearest first, with distances, addresses, opening hours and directions. Powered by free OpenStreetMap data, no sign-up, no fuss.</p>
+
+      <div class="tool" id="tool">
+        <button class="btn-locate" id="btnLocate" type="button">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.2" fill="currentColor"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="7.5" stroke="currentColor" stroke-width="1.6"/></svg>
+          Find Gas Stations Near Me
+        </button>
+
+        <div class="or">or search a place</div>
+
+        <form class="search-row" id="searchForm">
+          <input type="text" id="placeInput" placeholder="City, town or ZIP / postcode — e.g. Austin, TX or 90210" autocomplete="off" aria-label="City, town or ZIP code" />
+          <button class="btn-search" id="btnSearch" type="submit">Search</button>
+        </form>
+
+        <div class="controls">
+          <label for="radiusSel">Search radius:</label>
+          <select id="radiusSel">
+            <option value="2">2 miles</option>
+            <option value="5" selected>5 miles</option>
+            <option value="10">10 miles</option>
+            <option value="25">25 miles</option>
+          </select>
+        </div>
+
+        <div class="note">
+          <strong>Please note:</strong> we don't show live fuel prices, because no free public price feed exists — anyone showing you prices without a data source is guessing. Station locations and details come from OpenStreetMap contributors and may occasionally be incomplete.
+        </div>
+      </div>
+
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+
+      <div class="results-head" id="resultsHead">
+        <h2>Gas stations</h2>
+        <span class="count" id="resultsCount"></span>
+        <span class="near" id="resultsNear"></span>
+      </div>
+      <div class="cards" id="results"></div>
+
+      <div class="mapbox" id="mapBox">
+        <iframe id="mapFrame" title="OpenStreetMap view of the search area" loading="lazy"></iframe>
+        <div class="cap">Map © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>. The pin marks the centre of your search.</div>
+      </div>
+
+      <p class="attrib" id="attrib" style="display:none">Station data © OpenStreetMap contributors, available under the Open Database License (ODbL).</p>
+    </div>
+
+    <div class="home-extra">
+      <h2>Running low? Here's how this helps</h2>
+      <p>GasStationNearby answers one question fast: <strong>where is the closest place to fuel up right now?</strong> Instead of scrolling through ads and sponsored pins, you get a clean list of real stations from the OpenStreetMap database — the same community-built map used by apps and researchers worldwide — sorted purely by how far each station is from you.</p>
+      <p>Every result shows the station name or brand, its address where OpenStreetMap has one, the straight-line distance in miles, opening hours where recorded, and a directions button that hands you straight to Google Maps for the actual road route. If you're planning ahead, search any city, town or ZIP code and pick a radius of 2, 5, 10 or 25 miles.</p>
+      <p>Want to spend less per fill-up? Read our honest <a href="#/cheapest-gas-guide">guide to finding the cheapest gas near you</a> — real habits that lower what you pay, with no made-up prices. Curious how the finder works under the hood? See <a href="#/how-it-works">How It Works</a>.</p>
+    </div>
+  </div>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="page" id="view-how">
+    <div class="prose">
+      <h1>How It Works</h1>
+      <p>GasStationNearby is a small tool with a simple job: show you the real gas stations closest to where you are (or where you're heading), as quickly as possible. Here's exactly what happens when you use it — no black boxes.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>You share a location</h3><p>Tap “Find Gas Stations Near Me” and your browser asks permission to share your approximate position. Or skip that entirely and type a city, town or ZIP code into the search box.</p></div>
+      <div class="step"><div class="n">2</div><h3>We ask OpenStreetMap</h3><p>The page queries the OpenStreetMap Overpass API for every fuel station mapped within your chosen radius, and the Nominatim geocoder turns place names into coordinates when you search by text.</p></div>
+      <div class="step"><div class="n">3</div><h3>You get a sorted list</h3><p>Distances are calculated with the haversine formula and the stations are listed nearest first, each with its address, opening hours where recorded, and a directions button that opens the route in Google Maps.</p></div>
+    </div>
+    <div class="prose">
+      <h2>Where the data comes from</h2>
+      <p>All station data comes from <strong>OpenStreetMap</strong>, the free, community-built map of the world. Volunteers survey and record gas stations — their locations, brand names, addresses, opening hours and fuel types — and that data is openly licensed under the Open Database License (ODbL). We query it live each time you search, so you're seeing the current state of the map, not a stale copy stored by us.</p>
+      <h2>What we deliberately don't show</h2>
+      <p><strong>Fuel prices.</strong> There is no free, public, worldwide feed of live pump prices, and prices change too often for static data to stay honest. Rather than invent numbers, we leave prices out entirely and focus on what we can show truthfully: where stations are, how far away they are, and when they're open. Our <a href="#/cheapest-gas-guide">cheapest gas guide</a> covers practical ways to pay less.</p>
+      <p><strong>Ratings and reviews.</strong> OpenStreetMap doesn't collect them, so we don't display any. A station's position in the list is decided by distance alone — never by advertising.</p>
+      <h2>Your privacy, briefly</h2>
+      <p>Your location is handled entirely inside your browser. It is used to ask OpenStreetMap's public services for nearby stations and is never sent to, stored by, or logged by this website — this site has no server and no database. The full details are in our <a href="#/privacy">Privacy Policy</a>.</p>
+      <h2>If something looks wrong</h2>
+      <p>Because the map is community-maintained, a brand-new station might be missing or an entry might lack an address. Anyone can fix that by editing OpenStreetMap — corrections usually appear in our results within days. If the tool itself misbehaves, <a href="#/contact">let us know</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============ CHEAPEST GAS GUIDE ============ -->
+  <section class="page" id="view-guide">
+    <div class="prose">
+      <h1>How to Find the Cheapest Gas Near You</h1>
+      <p>Fuel is one of those costs that quietly eats a budget — a few cents per gallon difference adds up to real money over a year of fill-ups. We can't show you live prices (no free public price feed exists, and we won't invent numbers), but the good news is that finding cheaper gas is mostly about habits, not luck. Here are the strategies that genuinely work.</p>
+    </div>
+    <div class="tip-grid">
+      <div class="tip"><h3>Compare stations a few streets apart</h3><p>Prices often differ noticeably between stations only minutes apart — a station on a busy highway junction or right off an exit usually charges more than one a couple of streets into town. Use the finder above with a 5 or 10 mile radius to see your options, then check the prices on the signs as you pass. The cheapest station is frequently not the closest one.</p></div>
+      <div class="tip"><h3>Fill up at warehouse clubs and supermarkets</h3><p>Warehouse clubs and large supermarket fuel stations are consistently among the cheapest places to fill up, because fuel is used to draw in shoppers. If you already hold a membership or shop somewhere with a fuel station attached, it's usually worth making it your default stop.</p></div>
+      <div class="tip"><h3>Use loyalty and rewards programmes</h3><p>Many fuel brands and grocery chains run points schemes that take a few cents off per gallon. The savings per fill-up are small, but they're automatic once you're enrolled, and they stack up over a year of driving.</p></div>
+      <div class="tip"><h3>Time your fill-ups</h3><p>In many areas, prices tend to rise before weekends and holidays, when demand peaks, and ease off early in the week. Topping up on a quiet weekday morning instead of Friday evening can save a little almost every time — and the queues are shorter, too.</p></div>
+      <div class="tip"><h3>Don't drive out of your way for a small saving</h3><p>A cheaper station only saves money if the detour is short. Driving several extra miles to save a couple of cents per gallon can burn more fuel than the saving is worth. As a rule of thumb, a small detour for a big price gap is worth it; a long detour for a tiny gap is not.</p></div>
+      <div class="tip"><h3>Use the right fuel grade</h3><p>Check your owner's manual. Most cars designed for regular fuel gain nothing from premium — you're paying extra for octane the engine can't use. Only buy the higher grade if the manufacturer actually requires or recommends it.</p></div>
+      <div class="tip"><h3>Drive gently and keep tyres inflated</h3><p>The cheapest gallon is the one you never burn. Smooth acceleration, steady speeds, an empty roof rack, and tyres kept at the recommended pressure all cut consumption — under-inflated tyres alone can waste a few percent of your fuel.</p></div>
+      <div class="tip"><h3>Plan stops on long trips</h3><p>Motorway and highway service stations are famously the most expensive places to fuel. Before a long drive, use the search box above to find stations just off your route in the towns you'll pass — filling up there instead of at a service plaza can make a big difference on a full tank.</p></div>
+    </div>
+    <div class="prose">
+      <h2>A quick word on price apps</h2>
+      <p>Crowdsourced price-reporting apps and your national or state motoring organisation can show recent reported prices in some countries. They're a useful cross-check, but treat any single reported price with care — it may be hours or days old, and prices change daily. The price on the station's sign when you arrive is the only one that counts.</p>
+      <h2>The bottom line</h2>
+      <p>Know your options, don't pay highway prices by default, join the free rewards schemes, and burn less fuel overall. Combine those habits with the <a href="#/">station finder</a> to choose where to stop, and you'll reliably pay less than the driver who always uses the first station they see.</p>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="page" id="view-faq">
+    <div class="prose">
+      <h1>Frequently Asked Questions</h1>
+      <p class="soft">Straight answers about how the finder works, where the data comes from, and what the tool can and can't do.</p>
+    </div>
+    <div id="faqList">
+      <details class="faq-item"><summary>How does GasStationNearby find gas stations near me?</summary><div class="a"><p>When you tap the “Find Gas Stations Near Me” button, your browser shares your approximate location with the page. The tool then asks the OpenStreetMap Overpass API for every fuel station recorded around that point, calculates the straight-line distance to each one, and lists them closest first. Your location is used only in your browser and is never stored or sent to this website.</p></div></details>
+      <details class="faq-item"><summary>Does GasStationNearby show live gas prices?</summary><div class="a"><p>No. There is no free, public, worldwide feed of live fuel prices, so we do not show prices at all rather than guess or invent them. We show station locations, distances, addresses and opening hours from OpenStreetMap. For prices, check the station's own signage or a dedicated price-reporting service in your country.</p></div></details>
+      <details class="faq-item"><summary>Is GasStationNearby free to use?</summary><div class="a"><p>Yes. The tool is completely free, needs no account and no sign-up, and there are no limits on how many searches you can run. It is built on free public data from OpenStreetMap contributors.</p></div></details>
+      <details class="faq-item"><summary>Why is a station missing or listed with incomplete details?</summary><div class="a"><p>Station data comes from OpenStreetMap, a map built by volunteers. Most stations are recorded, but a brand-new station may not have been added yet, and some entries lack an address or opening hours. Anyone can improve the map by editing OpenStreetMap directly — fixes usually show up here within days.</p></div></details>
+      <details class="faq-item"><summary>Can I search for gas stations in another city or ZIP code?</summary><div class="a"><p>Yes. Type any city, town or ZIP/postcode into the search box instead of using your location — handy for planning a trip or checking an area you're moving to. The place is looked up with the free Nominatim geocoder and the same station search runs around that point.</p></div></details>
+      <details class="faq-item"><summary>Is my location data stored or shared?</summary><div class="a"><p>No. Your coordinates are used in your browser only, to query OpenStreetMap services for nearby stations. This website has no server and no database, so nothing about your location is stored, logged or sold. See the Privacy Policy for the full picture.</p></div></details>
+      <details class="faq-item"><summary>How accurate are the distances shown?</summary><div class="a"><p>Distances are straight-line distances calculated with the haversine formula between your location and each station. The actual driving distance will usually be a little longer because roads are not straight. Tap “Get Directions” on any result to see the real road route in Google Maps.</p></div></details>
+      <details class="faq-item"><summary>What do I do if no stations are found?</summary><div class="a"><p>Try a larger search radius — 10 or 25 miles — especially in rural areas where stations are spread out. If you searched by place name, check the spelling or try the nearest larger town. You can also widen the radius and search again in one tap.</p></div></details>
+      <details class="faq-item"><summary>Does the tool work outside the United States?</summary><div class="a"><p>Yes. OpenStreetMap covers most of the world, so the finder works wherever contributors have mapped fuel stations — in many countries you'll see them labelled as petrol stations, but the search is the same. Distances are shown in miles, and coverage detail varies by country.</p></div></details>
+      <details class="faq-item"><summary>How do I get directions to a station?</summary><div class="a"><p>Every result has a “Get Directions” button. It opens Google Maps with a route from your current position to that station, where you can start turn-by-turn navigation in the Maps app or your browser.</p></div></details>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="page" id="view-about">
+    <div class="prose">
+      <h1>About GasStationNearby</h1>
+      <p>GasStationNearby exists for one small, urgent moment: the fuel light comes on, you're somewhere unfamiliar, and you need to know where the nearest station is — now, not after scrolling through ads, pop-ups and sponsored listings.</p>
+      <p>The tool is built entirely on free, open data. Station locations come from OpenStreetMap, the community-built map of the world maintained by hundreds of thousands of volunteers, queried live through the Overpass API. Place searches use the Nominatim geocoder. Because the data is open, we can offer the finder completely free, with no account and no tracking of your location.</p>
+      <h2>What we stand for</h2>
+      <ul>
+        <li><strong>Honesty about data.</strong> <span>We show what the data actually contains — locations, distances, addresses, opening hours. We never invent fuel prices, ratings or reviews to make a listing look richer than it is.</span></li>
+        <li><strong>Privacy by design.</strong> <span>Your location never leaves your browser except to query OpenStreetMap's public services. There is no account, no database, and nothing to leak.</span></li>
+        <li><strong>Speed over clutter.</strong> <span>One button, one list, sorted by distance. That's the whole product, and we intend to keep it that way.</span></li>
+      </ul>
+      <h2>What the tool doesn't do</h2>
+      <p>We don't sell fuel, take bookings, or process payments. We don't show live prices, because no free public price feed exists — our <a href="#/cheapest-gas-guide">cheapest gas guide</a> explains the habits that actually lower what you pay at the pump. And because OpenStreetMap is volunteer-built, a station may occasionally be missing or short on detail; if you spot an error, editing the map fixes it for everyone.</p>
+      <p>Questions or suggestions? Head to the <a href="#/contact">Contact page</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="page" id="view-contact">
+    <div class="prose">
+      <h1>Contact Us</h1>
+      <p>Spotted a problem with the finder, a station that appears in the wrong place, or an idea that would make the tool more useful? We read everything and reply when we can help.</p>
+    </div>
+    <div class="contact-box">
+      <p style="margin:0 0 6px;color:var(--ink-soft)">Email us at</p>
+      <p style="margin:0 0 14px"><a class="mail" href="mailto:contact@gasstationsnearby.github.io">contact@gasstationsnearby.github.io</a></p>
+      <p style="margin:0;color:var(--ink-soft)">For wrong or missing station data, the fastest fix is to edit <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a> directly — corrections there flow into our results automatically. For anything about this website itself, the email above is the right channel.</p>
+    </div>
+    <div class="prose">
+      <h2>Before you write</h2>
+      <p>Many common questions are already answered in the <a href="#/faq">FAQ</a> — including why we don't show fuel prices and what to do if a search finds no stations. If the finder isn't working, telling us your device, browser and roughly what you searched for helps us reproduce the problem.</p>
+    </div>
+  </section>
+
+  <!-- ============ PRIVACY ============ -->
+  <section class="page" id="view-privacy">
+    <div class="prose">
+      <h1>Privacy Policy</h1>
+      <p class="soft">Last updated: November 2026. This policy explains, in plain language, what happens to your information when you use GasStationNearby.</p>
+      <h2>The short version</h2>
+      <p>GasStationNearby is a static website with no server, no database and no user accounts. We do not collect, store, log or sell your personal information, and your location is never sent to us.</p>
+      <h2>How your location is used</h2>
+      <p>If you tap “Find Gas Stations Near Me”, your browser asks for your permission to access your location. If you grant it, your coordinates are used <strong>only inside your browser</strong> to query OpenStreetMap's public services (the Overpass API) for stations near you, and to build directions links. Your coordinates are never transmitted to this website — there is no server for them to be transmitted to — and they are not stored anywhere by us. You can decline location access and use the place search instead; the tool works either way.</p>
+      <h2>Third-party services your browser contacts</h2>
+      <p>To answer a search, your browser talks directly to services operated by others, and those services will see your IP address and the search coordinates or place name, as any website you visit would:</p>
+      <ul>
+        <li><strong>OpenStreetMap Overpass API</strong> — returns station data around the searched point.</li>
+        <li><strong>OpenStreetMap Nominatim</strong> — converts place names you type into coordinates.</li>
+        <li><strong>OpenStreetMap map tiles</strong> — the embedded map view of your search area.</li>
+        <li><strong>Google Maps</strong> — only if you tap a “Get Directions” button, which opens Google Maps in a new tab under Google's own privacy policy.</li>
+        <li><strong>Google Fonts</strong> — supplies the typeface used on this site.</li>
+      </ul>
+      <p>Each of these services operates under its own privacy policy. We do not control what they log on their side.</p>
+      <h2>Cookies and storage</h2>
+      <p>This site does not set cookies and does not use local storage, analytics trackers or advertising trackers. Your browser or the third-party services listed above may use their own cookies under their own policies.</p>
+      <h2>Children</h2>
+      <p>The site collects no personal information from anyone, including children.</p>
+      <h2>Changes to this policy</h2>
+      <p>If the way the site works ever changes — for example, if we add a feature that processes data differently — we will update this page and note the change here before it takes effect.</p>
+      <h2>Contact</h2>
+      <p>Questions about privacy can be sent to <a href="mailto:contact@gasstationsnearby.github.io">contact@gasstationsnearby.github.io</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============ TERMS ============ -->
+  <section class="page" id="view-terms">
+    <div class="prose">
+      <h1>Terms of Use</h1>
+      <p class="soft">Last updated: November 2026. By using GasStationNearby, you agree to these terms.</p>
+      <h2>The service</h2>
+      <p>GasStationNearby is a free tool that displays gas station locations and details sourced live from OpenStreetMap. It is provided “as is”, for personal, informational use. We may change, suspend or discontinue any part of the site at any time without notice.</p>
+      <h2>Data accuracy</h2>
+      <p>Station information comes from OpenStreetMap contributors and is provided without any guarantee of accuracy, completeness or currency. A listed station may have closed, moved or changed its hours; a real station may be missing. Always rely on road signage and your own judgement when travelling, and never let a screen distract you while driving.</p>
+      <h2>No fuel prices</h2>
+      <p>The site does not display fuel prices and makes no representation about the price of fuel at any station.</p>
+      <h2>Acceptable use</h2>
+      <p>You agree not to misuse the site, attempt to disrupt it, or use automated means to query it at a volume that burdens the free public OpenStreetMap services it depends on. Heavy automated use of the Overpass API and Nominatim should go through those projects' own usage policies.</p>
+      <h2>Third-party services and data licences</h2>
+      <p>Map data © OpenStreetMap contributors, licensed under the Open Database License (ODbL). Directions links open Google Maps, which is governed by Google's own terms. Links to third-party sites are provided for convenience; we are not responsible for their content or availability.</p>
+      <h2>Liability</h2>
+      <p>To the fullest extent permitted by law, we accept no liability for any loss or damage arising from reliance on information shown by this site, from a station being closed or absent, or from the unavailability of the site or its data sources.</p>
+      <h2>Changes</h2>
+      <p>We may update these terms from time to time; the current version will always be posted on this page. Continued use of the site after a change means you accept the updated terms.</p>
+    </div>
+  </section>
+
+  <!-- ============ DISCLAIMER ============ -->
+  <section class="page" id="view-disclaimer">
+    <div class="prose">
+      <h1>Disclaimer</h1>
+      <p class="soft">Last updated: November 2026.</p>
+      <p>GasStationNearby is an independent information tool. It is not affiliated with, endorsed by, or connected to any fuel company, station brand, the OpenStreetMap Foundation, or Google. Brand names shown in results belong to their respective owners and are displayed only to identify stations recorded in OpenStreetMap data.</p>
+      <h2>Information accuracy</h2>
+      <p>All station locations, names, addresses and opening hours shown on this site come from OpenStreetMap, a volunteer-built database. We work to present that data faithfully, but we cannot guarantee that any listing is accurate, complete or up to date. Stations open, close, rebrand and change hours without notice. Distances are straight-line estimates, not driving distances.</p>
+      <h2>No prices, ratings or reviews</h2>
+      <p>This site does not publish fuel prices, star ratings or customer reviews for any station, and any website or app presenting such figures under our name should be treated with suspicion. Where our guide content discusses saving money on fuel, it offers general information only — not financial advice, and not a promise of any particular price or saving.</p>
+      <h2>Driving safety</h2>
+      <p>Never interact with this site — or any device — while driving. Plan your stop before you set off, or pull over somewhere safe first. If your fuel gauge is critically low, the safest choice is the nearest station, whatever the tool suggests.</p>
+      <h2>External links</h2>
+      <p>Directions buttons and other links lead to third-party services such as Google Maps and OpenStreetMap. We do not control those services and are not responsible for their content, accuracy or availability.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <strong style="color:var(--ink)">GasStationNearby</strong><br />
+        Find the closest gas stations near you — free, private, and powered by OpenStreetMap.
+      </div>
+      <nav aria-label="Footer">
+        <a href="#/">Finder</a>
+        <a href="#/how-it-works">How It Works</a>
+        <a href="#/cheapest-gas-guide">Cheapest Gas Guide</a>
+        <a href="#/faq">FAQ</a>
+        <a href="#/about">About</a>
+        <a href="#/contact">Contact</a>
+        <a href="#/privacy">Privacy Policy</a>
+        <a href="#/terms">Terms</a>
+        <a href="#/disclaimer">Disclaimer</a>
+      </nav>
+    </div>
+    <p class="fine">© 2026 GasStationNearby. Station data © OpenStreetMap contributors (ODbL). Distances are straight-line estimates; check road signs and station signage for final details.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- Routing ---------------- */
+  var ROUTES = {
+    "":            { view:"home",    nav:"home",    title:"Gas Station Nearby — Find the Closest Gas Stations Near You", desc:"Find the closest gas stations near you right now. GasStationNearby uses your location or any city or ZIP code to list real gas stations from OpenStreetMap, sorted by distance, with directions, addresses and opening hours." },
+    "/":           { view:"home",    nav:"home",    title:"Gas Station Nearby — Find the Closest Gas Stations Near You", desc:"Find the closest gas stations near you right now. GasStationNearby uses your location or any city or ZIP code to list real gas stations from OpenStreetMap, sorted by distance, with directions, addresses and opening hours." },
+    "/how-it-works": { view:"how",   nav:"how",     title:"How It Works — Gas Station Nearby", desc:"How GasStationNearby finds the closest gas stations near you: browser geolocation, the OpenStreetMap Overpass API and Nominatim, with distances calculated and sorted automatically." },
+    "/cheapest-gas-guide": { view:"guide", nav:"guide", title:"How to Find the Cheapest Gas Near You — Gas Station Nearby", desc:"Honest, practical tips for paying less at the pump: comparing nearby stations, warehouse clubs, loyalty schemes, timing your fill-ups and driving more efficiently. No invented prices." },
+    "/faq":        { view:"faq",     nav:"faq",     title:"FAQ — Gas Station Nearby", desc:"Answers about the GasStationNearby finder: how it locates stations, why it shows no live fuel prices, location privacy, distance accuracy and what to do when no stations are found." },
+    "/about":      { view:"about",   nav:"about",   title:"About — Gas Station Nearby", desc:"About GasStationNearby: a free, private gas station finder built on open OpenStreetMap data, with no invented prices, ratings or reviews." },
+    "/contact":    { view:"contact", nav:"contact", title:"Contact — Gas Station Nearby", desc:"Contact GasStationNearby about the station finder, incorrect data or suggestions. Email contact@gasstationsnearby.github.io." },
+    "/privacy":    { view:"privacy", nav:"",        title:"Privacy Policy — Gas Station Nearby", desc:"GasStationNearby privacy policy: your location is used only in your browser to find stations and is never stored, logged or sent to this site." },
+    "/terms":      { view:"terms",   nav:"",        title:"Terms of Use — Gas Station Nearby", desc:"Terms of use for GasStationNearby: a free station finder using OpenStreetMap data, provided as-is for personal informational use." },
+    "/disclaimer": { view:"disclaimer", nav:"",      title:"Disclaimer — Gas Station Nearby", desc:"Disclaimer for GasStationNearby: station data comes from OpenStreetMap contributors and may be incomplete; the site shows no fuel prices, ratings or reviews." }
+  };
+  var VIEWS = ["home","how","guide","faq","about","contact","privacy","terms","disclaimer"];
+  var metaDesc = document.querySelector('meta[name="description"]');
+
+  function route(){
+    var hash = location.hash.replace(/^#/,"");
+    var r = ROUTES[hash] || ROUTES["/"];
+    VIEWS.forEach(function(v){
+      var el = document.getElementById("view-"+v);
+      if(el){
+        if(v==="home"){ el.style.display = (r.view==="home") ? "" : "none"; }
+        else { el.classList.toggle("show", r.view===v); }
+      }
+    });
+    document.title = r.title;
+    if(metaDesc) metaDesc.setAttribute("content", r.desc);
+    var links = document.querySelectorAll("nav.links a[data-nav]");
+    for(var i=0;i<links.length;i++){
+      links[i].classList.toggle("active", links[i].getAttribute("data-nav")===r.nav);
+    }
+    window.scrollTo(0,0);
+  }
+  window.addEventListener("hashchange", route);
+
+  /* ---------------- Finder ---------------- */
+  var btnLocate = document.getElementById("btnLocate");
+  var btnSearch = document.getElementById("btnSearch");
+  var searchForm = document.getElementById("searchForm");
+  var placeInput = document.getElementById("placeInput");
+  var radiusSel = document.getElementById("radiusSel");
+  var statusBox = document.getElementById("status");
+  var resultsEl = document.getElementById("results");
+  var resultsHead = document.getElementById("resultsHead");
+  var resultsCount = document.getElementById("resultsCount");
+  var resultsNear = document.getElementById("resultsNear");
+  var mapBox = document.getElementById("mapBox");
+  var mapFrame = document.getElementById("mapFrame");
+  var attrib = document.getElementById("attrib");
+
+  var lastSearch = null; // {lat, lon, label}
+  var busy = false;
+
+  var OVERPASS_ENDPOINTS = [
+    "https://overpass-api.de/api/interpreter",
+    "https://overpass.kumi.systems/api/interpreter",
+    "https://overpass.nchc.org.tw/api/interpreter"
+  ];
+
+  function setBusy(on){
+    busy = on;
+    btnLocate.disabled = on;
+    btnSearch.disabled = on;
+  }
+  function showStatus(html, isError){
+    statusBox.className = "status show" + (isError ? " error" : "");
+    statusBox.innerHTML = '<div class="box">' + html + "</div>";
+  }
+  function clearStatus(){
+    statusBox.className = "status";
+    statusBox.innerHTML = "";
+  }
+  function showLoading(msg){
+    showStatus('<p><span class="spinner" aria-hidden="true"></span>' + msg + "</p>", false);
+  }
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+  function haversineMiles(lat1, lon1, lat2, lon2){
+    var R = 3958.8, toRad = Math.PI/180;
+    var dLat = (lat2-lat1)*toRad, dLon = (lon2-lon1)*toRad;
+    var a = Math.sin(dLat/2)*Math.sin(dLat/2) +
+            Math.cos(lat1*toRad)*Math.cos(lat2*toRad)*Math.sin(dLon/2)*Math.sin(dLon/2);
+    return 2 * R * Math.asin(Math.sqrt(a));
+  }
+  function fmtDist(mi){
+    if(mi < 0.1) return "< 0.1";
+    if(mi < 10) return mi.toFixed(1);
+    return Math.round(mi).toString();
+  }
+
+  function fetchOverpass(query){
+    var body = "data=" + encodeURIComponent(query);
+    function attempt(i){
+      if(i >= OVERPASS_ENDPOINTS.length){
+        return Promise.reject(new Error("all endpoints failed"));
+      }
+      var ctrl = ("AbortController" in window) ? new AbortController() : null;
+      var timer = null;
+      var opts = {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+        body: body
+      };
+      if(ctrl){ opts.signal = ctrl.signal; timer = setTimeout(function(){ ctrl.abort(); }, 30000); }
+      return fetch(OVERPASS_ENDPOINTS[i], opts).then(function(res){
+        if(timer) clearTimeout(timer);
+        if(!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      }).catch(function(err){
+        if(timer) clearTimeout(timer);
+        return attempt(i+1);
+      });
+    }
+    return attempt(0);
+  }
+
+  function stationFromElement(el, origin){
+    var lat = (el.lat != null) ? el.lat : (el.center ? el.center.lat : null);
+    var lon = (el.lon != null) ? el.lon : (el.center ? el.center.lon : null);
+    if(lat == null || lon == null) return null;
+    var t = el.tags || {};
+    var name = t.name || t.brand || t.operator || "Gas Station";
+    var brand = (t.brand && t.brand !== name) ? t.brand : (t.operator && t.operator !== name ? t.operator : "");
+    var parts = [];
+    var street = ((t["addr:housenumber"] || "") + " " + (t["addr:street"] || "")).trim();
+    if(street) parts.push(street);
+    var city = t["addr:city"] || t["addr:town"] || t["addr:village"] || "";
+    if(city) parts.push(city);
+    if(t["addr:postcode"]) parts.push(t["addr:postcode"]);
+    var fuels = [];
+    if(t["fuel:diesel"] === "yes") fuels.push("Diesel");
+    if(t["fuel:octane_91"] === "yes" || t["fuel:regular"] === "yes") fuels.push("Regular");
+    if(t["fuel:octane_95"] === "yes" || t["fuel:midgrade"] === "yes") fuels.push("Midgrade");
+    if(t["fuel:octane_98"] === "yes" || t["fuel:octane_100"] === "yes" || t["fuel:premium"] === "yes") fuels.push("Premium");
+    if(t["fuel:lpg"] === "yes") fuels.push("LPG");
+    if(t["fuel:cng"] === "yes") fuels.push("CNG");
+    if(t["fuel:e85"] === "yes") fuels.push("E85");
+    return {
+      name: name,
+      brand: brand,
+      address: parts.join(", "),
+      hours: t.opening_hours || "",
+      fuels: fuels,
+      lat: lat, lon: lon,
+      dist: haversineMiles(origin.lat, origin.lon, lat, lon)
+    };
+  }
+
+  function renderResults(stations, origin, label){
+    resultsEl.innerHTML = "";
+    if(!stations.length){
+      resultsHead.className = "results-head";
+      mapBox.className = "mapbox";
+      attrib.style.display = "none";
+      showStatus(
+        "<p><strong>No gas stations found within " + esc(radiusSel.value) + " miles of " + esc(label) + ".</strong></p>" +
+        "<p>Stations can be spread out in rural areas. Try a larger radius above, or search for the nearest town instead.</p>",
+        true
+      );
+      return;
+    }
+    clearStatus();
+    resultsHead.className = "results-head show";
+    resultsCount.textContent = stations.length + (stations.length === 1 ? " station found" : " stations found");
+    resultsNear.textContent = "Within " + radiusSel.value + " miles of " + label + " · sorted by distance (straight-line). Tap Get Directions for the road route.";
+    attrib.style.display = "";
+
+    var html = "";
+    stations.forEach(function(s){
+      var dirUrl = "https://www.google.com/maps/dir/?api=1&destination=" + s.lat + "," + s.lon;
+      html += '<article class="card"><div class="main">';
+      if(s.brand) html += '<span class="brand-tag">' + esc(s.brand) + "</span>";
+      html += "<h3>" + esc(s.name) + "</h3>";
+      if(s.address) html += '<p class="addr">' + esc(s.address) + "</p>";
+      var meta = [];
+      if(s.hours) meta.push("<b>Hours:</b> " + esc(s.hours));
+      if(s.fuels.length) meta.push("<b>Fuel:</b> " + esc(s.fuels.join(", ")));
+      if(!s.address && !meta.length) meta.push("Details limited in OpenStreetMap for this station.");
+      html += '<p class="meta">' + meta.join(" &nbsp;·&nbsp; ") + "</p>";
+      html += '</div><div class="side"><div class="dist">' + fmtDist(s.dist) + "<small>MILES</small></div>" +
+              '<a class="btn-dir" href="' + dirUrl + '" target="_blank" rel="noopener">' +
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7-5.6-7-11a7 7 0 1 1 14 0c0 5.4-7 11-7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.6" fill="currentColor"/></svg>' +
+              "Get Directions</a></div></article>";
+    });
+    resultsEl.innerHTML = html;
+
+    // Embedded OpenStreetMap view centred on the search point
+    var d = parseFloat(radiusSel.value) * 0.0145; // rough degrees span for radius
+    var bbox = (origin.lon - d) + "," + (origin.lat - d*0.75) + "," + (origin.lon + d) + "," + (origin.lat + d*0.75);
+    mapFrame.src = "https://www.openstreetmap.org/export/embed.html?bbox=" + encodeURIComponent(bbox) +
+                   "&layer=mapnik&marker=" + origin.lat + "," + origin.lon;
+    mapBox.className = "mapbox show";
+  }
+
+  function runSearch(lat, lon, label){
+    lastSearch = { lat: lat, lon: lon, label: label };
+    var radiusM = Math.round(parseFloat(radiusSel.value) * 1609.344);
+    var query = "[out:json][timeout:25];(" +
+      'node["amenity"="fuel"](around:' + radiusM + "," + lat + "," + lon + ");" +
+      'way["amenity"="fuel"](around:' + radiusM + "," + lat + "," + lon + ");" +
+      ");out center tags 300;";
+    setBusy(true);
+    showLoading("Searching OpenStreetMap for gas stations near " + esc(label) + "…");
+    fetchOverpass(query).then(function(data){
+      var seen = {}, stations = [];
+      (data.elements || []).forEach(function(el){
+        var s = stationFromElement(el, lastSearch);
+        if(!s) return;
+        var key = s.name + "@" + s.lat.toFixed(4) + "," + s.lon.toFixed(4);
+        if(seen[key]) return;
+        seen[key] = true;
+        if(s.dist <= parseFloat(radiusSel.value) + 0.05) stations.push(s);
+      });
+      stations.sort(function(a,b){ return a.dist - b.dist; });
+      setBusy(false);
+      renderResults(stations, lastSearch, label);
+    }).catch(function(){
+      setBusy(false);
+      showStatus(
+        "<p><strong>We couldn't load station data just now.</strong></p>" +
+        "<p>The free OpenStreetMap data service may be busy. Please try again in a moment.</p>" +
+        '<button class="btn-retry" type="button" id="btnRetry">Try Again</button>',
+        true
+      );
+      var rb = document.getElementById("btnRetry");
+      if(rb) rb.addEventListener("click", function(){
+        if(lastSearch) runSearch(lastSearch.lat, lastSearch.lon, lastSearch.label);
+      });
+    });
+  }
+
+  btnLocate.addEventListener("click", function(){
+    if(busy) return;
+    if(!("geolocation" in navigator)){
+      showStatus("<p><strong>Your browser doesn't support location.</strong></p><p>No problem — type your city, town or ZIP code in the search box above instead.</p>", true);
+      return;
+    }
+    setBusy(true);
+    showLoading("Getting your location… If your browser asks, please allow location access.");
+    navigator.geolocation.getCurrentPosition(function(pos){
+      setBusy(false);
+      runSearch(pos.coords.latitude, pos.coords.longitude, "your location");
+    }, function(err){
+      setBusy(false);
+      var msg;
+      if(err && err.code === 1){
+        msg = "<p><strong>Location access was denied.</strong></p><p>That's completely fine — your location is never required. Type your city, town or ZIP code in the search box above and we'll find stations there instead. If you'd rather use your location, allow it in your browser's site settings and tap the button again.</p>";
+      } else if(err && err.code === 3){
+        msg = "<p><strong>Your location took too long to arrive.</strong></p><p>Please try again, or search by city, town or ZIP code above.</p>";
+      } else {
+        msg = "<p><strong>We couldn't get your location.</strong></p><p>Please try again, or search by city, town or ZIP code above.</p>";
+      }
+      showStatus(msg, true);
+    }, { enableHighAccuracy: false, timeout: 15000, maximumAge: 300000 });
+  });
+
+  searchForm.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    if(busy) return;
+    var q = placeInput.value.trim();
+    if(!q){
+      showStatus("<p><strong>Type a place to search.</strong></p><p>Enter a city, town or ZIP/postcode — for example “Denver”, “Leeds” or “90210”.</p>", true);
+      placeInput.focus();
+      return;
+    }
+    setBusy(true);
+    showLoading("Looking up “" + esc(q) + "”…");
+    var url = "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + encodeURIComponent(q);
+    fetch(url, { headers: { "Accept": "application/json" } }).then(function(res){
+      if(!res.ok) throw new Error("HTTP " + res.status);
+      return res.json();
+    }).then(function(data){
+      setBusy(false);
+      if(!data || !data.length){
+        showStatus("<p><strong>We couldn't find a place called “" + esc(q) + "”.</strong></p><p>Check the spelling, or try adding a state or country — for example “Springfield, IL”.</p>", true);
+        return;
+      }
+      var lat = parseFloat(data[0].lat), lon = parseFloat(data[0].lon);
+      var label = (data[0].display_name || q).split(",").slice(0,2).join(",");
+      runSearch(lat, lon, label);
+    }).catch(function(){
+      setBusy(false);
+      showStatus("<p><strong>The place lookup failed.</strong></p><p>The free geocoding service may be busy. Please try again in a moment.</p>", true);
+    });
+  });
+
+  radiusSel.addEventListener("change", function(){
+    if(lastSearch && !busy){
+      runSearch(lastSearch.lat, lastSearch.lon, lastSearch.label);
+    }
+  });
+
+  route();
+})();
+</script>
+</body>
+</html>
